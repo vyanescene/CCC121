@@ -1,0 +1,69 @@
+import java.util.PriorityQueue;
+
+public class LibraryCatalog {
+    private PriorityQueue<Publication> topBorrowedPublications;
+    private PriorityQueue<Publication> topRatedPublications;
+
+    public LibraryCatalog(int capacity) {
+        topBorrowedPublications = new PriorityQueue<>((publication1, publication2) -> Integer.compare(publication2.getBorrowCount(), publication1.getBorrowCount()));
+        topRatedPublications = new PriorityQueue<>((publication1, publication2) -> Double.compare(publication2.getRating(), publication1.getRating()));
+    }
+
+    public void addPublication(Publication publication) {
+        topBorrowedPublications.add(publication);
+        topRatedPublications.add(publication);
+    }
+
+    public void borrowPublication(Publication publication) {
+        topBorrowedPublications.remove(publication);
+        publication.setBorrowCount(publication.getBorrowCount() + 1);
+        topBorrowedPublications.add(publication);
+    }
+
+    public void ratePublication(Publication publication, double rating) {
+        topRatedPublications.remove(publication);
+        publication.setRating(rating);
+        topRatedPublications.add(publication);
+    }
+
+    public void printTopBorrowedPublications() {
+        System.out.println("Top Borrowed Publications:");
+        PriorityQueue<Publication> tempQueue = new PriorityQueue<>(topBorrowedPublications.comparator());
+        tempQueue.addAll(topBorrowedPublications);
+        while (!tempQueue.isEmpty()) {
+            System.out.println(tempQueue.poll());
+        }
+    }
+
+    public void printTopRatedPublications() {
+        System.out.println("Top Rated Publications:");
+        PriorityQueue<Publication> tempQueue = new PriorityQueue<>(topRatedPublications.comparator());
+        tempQueue.addAll(topRatedPublications);
+        while (!tempQueue.isEmpty()) {
+            System.out.println(tempQueue.poll());
+        }
+    }
+
+    public static void main(String[] args) {
+        LibraryCatalog catalog = new LibraryCatalog(10);
+
+        Publication publication1 = new Publication("Publication1", "Author1", 0, 4.5);
+        Publication publication2 = new Publication("Publication2", "Author2", 0, 4.8);
+        Publication publication3 = new Publication("Publication3", "Author3", 0, 4.2);
+
+        catalog.addPublication(publication1);
+        catalog.addPublication(publication2);
+        catalog.addPublication(publication3);
+
+        catalog.borrowPublication(publication1);
+        catalog.borrowPublication(publication2);
+        catalog.borrowPublication(publication1);
+
+        catalog.ratePublication(publication1, 4.9);
+        catalog.ratePublication(publication2, 4.7);
+        catalog.ratePublication(publication3, 4.6);
+
+        catalog.printTopBorrowedPublications();
+        catalog.printTopRatedPublications();
+    }
+}
