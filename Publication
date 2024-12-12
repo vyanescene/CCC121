@@ -1,0 +1,53 @@
+public class Publication implements Comparable<Publication> {
+    private String title;
+    private String author;
+    private int borrowCount;
+    private double rating;
+
+    public Publication(String title, String author, int borrowCount, double rating) {
+        this.title = title;
+        this.author = author;
+        this.borrowCount = borrowCount;
+        this.rating = rating;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public int getBorrowCount() {
+        return borrowCount;
+    }
+
+    public void setBorrowCount(int borrowCount) {
+        this.borrowCount = borrowCount;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    @Override
+    public int compareTo(Publication other) {
+        // Compare publications based on borrow count in descending order
+        return Integer.compare(other.borrowCount, this.borrowCount);
+    }
+
+    @Override
+    public String toString() {
+        return "Publication{" +
+                "title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", borrowCount=" + borrowCount +
+                ", rating=" + rating +
+                '}';
+    }
+}
